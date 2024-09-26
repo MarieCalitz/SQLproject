@@ -1,0 +1,35 @@
+#Get an overall of the data that is given.
+SELECT *
+FROM fortune_companies;
+
+#Assign all the companies according to their revenue as exceptional, great, good and average where there is healthcare benefits.
+SELECT company_name,
+ROUND(revenue) AS revenue_percent,
+CASE WHEN revenue>=400 THEN " EXCEPTIONAL"
+WHEN revenue >=300 THEN "GREAT"
+WHEN revenue >=200 THEN "GOOD"
+ELSE "AVERAGE"
+END AS best_company
+FROM fortune_companies
+WHERE healthcare_benefits = 1;
+
+#Looking at the average days off that is more than 20 days.
+SELECT industry,
+ROUND(AVG(paid_time_off_days)) AS days_off
+FROM fortune_companies
+GROUP BY industry
+HAVING days_off>20;
+
+#Assign all the companies in the Finance industry as mother friendly workplace, acceptable, or terrible based on maternity leave.
+SELECT company_name,
+CASE WHEN maternity_leave_weeks>=10 THEN "mother friendly workplace"
+WHEN maternity_leave_weeks>=8 THEN "acceptable"
+ELSE "terrible"
+END AS mother_friendly
+FROM fortune_companies
+WHERE industry = 'Finance';
+
+#Which company in the Retail industry has the highest revenue, and what is their revenue.
+SELECT company_name, ROUND(max(revenue)) AS highest_revenue
+FROM fortune_companies
+WHERE industry = "Retail";
